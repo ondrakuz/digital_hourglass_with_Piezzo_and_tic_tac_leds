@@ -17,7 +17,7 @@
   by Ondřej Kužel  
 */
 
-// named constant for the switch pin
+// named constant
 const int SwitchPin = 8;
 const int TicLedPin = 10;
 const int TacLedPin = 11;
@@ -32,17 +32,17 @@ const int NoteMin = 349;
 
 
 // variables
-unsigned long previousTime = 0;  // store the last time an LED was updated
-unsigned long previousTicTime = 0; // store the last time of switching of an tic-tac LEDs
+unsigned long previous_time = 0;  // store the last time an LED was updated
+unsigned long previous_tic_time = 0; // store the last time of switching of an tic-tac LEDs
 
-int switchState = 0;             // the current switch state
-int prevSwitchState = 0;         // the previous switch state
-int ticTacLedPin = 10;           // the switched on tic-tac LED (pin)
+int switch_state = 0;             // the current switch state
+int prev_switch_state = 0;         // the previous switch state
+int tic_tac_led = 10;           // the switched on tic-tac LED (pin)
 int led = 2;                     // a variable to refer to the LEDs
 
 // 10000 = 10 seconds in milliseconds
 unsigned long interval = 10000;  // interval at which to light the next LED = 10 sec
-unsigned long ticTacInterval = 250; // interval at which switch the tic-tac LEDs on/off
+unsigned long tic_tac_interval = 250; // interval at which switch the tic-tac LEDs on/off
 
 void setup() {
   // set the LED pins as outputs
@@ -61,27 +61,27 @@ void setup() {
 
 void loop() {
   // store the time since the Arduino started running in a variable
-  unsigned long currentTime = millis();
+  unsigned long current_time = millis();
 
   // Tic Tac Leds
-  if (currentTime - previousTicTime > ticTacInterval) {
-    previousTicTime = currentTime;
-    if (ticTacLedPin == TicLedPin) {
+  if (current_time - previous_tic_time > tic_tac_interval) {
+    previous_tic_time = current_time;
+    if (tic_tac_led == TicLedPin) {
       digitalWrite(TicLedPin, LOW);
       digitalWrite(TacLedPin, HIGH);
-      ticTacLedPin = TacLedPin;
-    } else if (ticTacLedPin == TacLedPin) {
+      tic_tac_led = TacLedPin;
+    } else if (tic_tac_led == TacLedPin) {
       digitalWrite(TacLedPin, LOW);
       digitalWrite(TicLedPin, HIGH);
-      ticTacLedPin = TicLedPin;
+      tic_tac_led = TicLedPin;
     }
   }
 
   // compare the current time to the previous time an LED turned on
   // if it is greater than your interval, run the if statement
-  if (currentTime - previousTime > interval) {
+  if (current_time - previous_time > interval) {
     // save the current time as the last time you changed an LED
-    previousTime = currentTime;
+    previous_time = current_time;
     // Turn the LED on
     digitalWrite(led, HIGH);
     // increment the led variable
@@ -107,10 +107,10 @@ void loop() {
   }
 
   // read the switch value
-  switchState = digitalRead(SwitchPin);
+  switch_state = digitalRead(SwitchPin);
 
   // if the switch has changed
-  if (switchState != prevSwitchState) {
+  if (switch_state != prev_switch_state) {
     // turn all the LEDs low
     for (int x = 2; x < 8; x++) {
       digitalWrite(x, LOW);
@@ -120,8 +120,8 @@ void loop() {
     led = 2;
 
     //reset the timer
-    previousTime = currentTime;
+    previous_time = current_time;
   }
   // set the previous switch state to the current state
-  prevSwitchState = switchState;
+  prev_switch_state = switch_state;
 }
