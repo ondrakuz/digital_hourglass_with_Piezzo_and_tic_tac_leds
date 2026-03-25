@@ -13,7 +13,7 @@
   - tilt switch
   - piezzo
 
-  Created 25.03.2026
+  Created 2026-03-25
   by Ondřej Kužel  
 */
 
