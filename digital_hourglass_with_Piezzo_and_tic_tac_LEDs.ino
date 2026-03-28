@@ -98,11 +98,7 @@ void loop() {
       tone(PiezzoPin, NoteMin, 100);
       delay(400);
 
-      for (int i = 0; i < NumOfLeds; i++)
-      {
-        digitalWrite(i + 2, LOW);
-      }
-      led = 2;
+      resetPins();
     }
   }
 
@@ -111,17 +107,21 @@ void loop() {
 
   // if the switch has changed
   if (switch_state != prev_switch_state) {
-    // turn all the LEDs low
-    for (int x = 2; x < 8; x++) {
-      digitalWrite(x, LOW);
-    }
-
-    // reset the LED variable to the first one
-    led = 2;
+    resetPins();
 
     //reset the timer
     previous_time = current_time;
   }
   // set the previous switch state to the current state
   prev_switch_state = switch_state;
+}
+
+void resetPins() {
+     // turn all the LEDs low
+    for (int i = 2; i < 8; i++) {
+      digitalWrite(i, LOW);
+    }
+
+    // reset the LED variable to the first one
+    led = 2;
 }
